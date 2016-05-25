@@ -1,4 +1,6 @@
-
+/*
+Two ways to get the maximum depth of a binary tree.
+*/
 
 int maxDepth_DFS(TreeNode *root)
 {
