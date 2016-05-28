@@ -12,3 +12,6 @@ postorder left,right,root
 https://en.wikipedia.org/wiki/Tree_traversal#Post-order
 
 http://www.geeksforgeeks.org/618/
+
+## leaf
+if (!node->left && !node->right) then the node is a leaf.
