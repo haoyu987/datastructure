@@ -40,3 +40,52 @@ private:
         } 
     } 
 };
+
+/*
+two-end search solution. I rewrite the code below for better readability. 
+Note that the use of two pointers phead and ptail save a lot of time. At 
+each round of BFS, depending on the relative size of head and tail, 
+we point phead to the smaller set to reduce the running time.
+*/
+class Solution2 {
+public:
+    int ladderLength(string beginWord, string endWord, unordered_set<string>& wordDict) {
+        unordered_set<string> head, tail, *phead, *ptail;
+        head.insert(beginWord);
+        tail.insert(endWord);
+        int dist = 2;
+        while (!head.empty() && !tail.empty()) {
+            if (head.size() < tail.size()) {
+                phead = &head;
+                ptail = &tail;
+            }
+            else {
+                phead = &tail; 
+                ptail = &head;
+            }
+            unordered_set<string> temp; 
+            for (auto itr = phead -> begin(); itr != phead -> end(); itr++) {
+                string word = *itr;
+                wordDict.erase(word);
+                for (int p = 0; p < (int)word.length(); p++) {
+                    char letter = word[p];
+                    for (int k = 0; k < 26; k++) {
+                        word[p] = 'a' + k;
+                        if (ptail -> find(word) != ptail -> end())
+                            return dist;
+                        if (wordDict.find(word) != wordDict.end()) {
+                            temp.insert(word);
+                            wordDict.erase(word);
+                        }
+                    }
+                    word[p] = letter;
+                }
+            }
+            dist++;
+            // the pointer is swapped.
+            // the items of temp is allocated on heap, though the temp object will be deleted after this loop ends.
+            swap(*phead, temp);
+        }
+        return 0; 
+    }
+};
