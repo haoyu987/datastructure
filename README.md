@@ -15,3 +15,13 @@ http://www.geeksforgeeks.org/618/
 
 ## leaf
 if !node->left && !node->right is true, then the node is a leaf.
+
+# hashtable
+##c++
+unordered_set
+
+http://www.cplusplus.com/reference/unordered_set/unordered_set/
+
+unordered_map
+
+http://www.cplusplus.com/reference/unordered_map/
