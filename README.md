@@ -25,3 +25,7 @@ http://www.cplusplus.com/reference/unordered_set/unordered_set/
 unordered_map
 
 http://www.cplusplus.com/reference/unordered_map/
+
+map erase returns the number of elements erased. 0 for non-existing key.
+
+http://en.cppreference.com/w/cpp/container/map/erase
