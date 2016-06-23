@@ -2,7 +2,7 @@
 github markdown
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 # tree
-## traversal
+### traversal
 inorder left,root,right
 
 preorder root,left,right
@@ -13,10 +13,10 @@ https://en.wikipedia.org/wiki/Tree_traversal#Post-order
 
 http://www.geeksforgeeks.org/618/
 
-## leaf
+### leaf
 if !node->left && !node->right is true, then the node is a leaf.
 
-## BFS
+### BFS
 Why would we use BFS? For example, in some situations the same value might
 appear as a datum more than once in the tree, and we want to find the shortest path from the root node to
 a node containing that datum. To do that, we have to look at nodes near the root before looking at nodes
@@ -31,7 +31,7 @@ we’d follow one path all the way to the end of the game before starting to con
 move.)
 
 # hashtable
-##c++
+###c++
 unordered_set
 
 http://www.cplusplus.com/reference/unordered_set/unordered_set/
