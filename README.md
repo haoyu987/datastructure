@@ -49,7 +49,9 @@ http://en.cppreference.com/w/cpp/container/map/erase
 http://www.cplusplus.com/reference/string/string/
 
 substr
+```c++
   std::string str="We think in generalities, but we live in details.";
                                            // (quoting Alfred N. Whitehead)
 
   std::string str2 = str.substr (3,5);     // "think"
+```
