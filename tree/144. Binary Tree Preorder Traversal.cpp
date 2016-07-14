@@ -29,6 +29,28 @@ public:
     }
 };
 
+class Solution{
+public:
+vector<int> preorderTraversal(TreeNode* root) {
+    vector<int>res;
+    stack<TreeNode*>stack;
+    if(!root)return res;
+    TreeNode * cur;
+    
+    stack.push(root);
+    while(!stack.empty())
+    {
+        cur=stack.top();
+        res.push_back(cur->val);
+        stack.pop();
+        if(cur->right)stack.push(cur->right);
+        if(cur->left)stack.push(cur->left);
+    }
+    return res;
+}
+};
+
+
 /*
 java
 public List<Integer> preorderTraversal(TreeNode node) {
