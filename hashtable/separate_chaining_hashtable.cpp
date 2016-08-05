@@ -64,3 +64,19 @@ bool insert(const HashedObj & x)
     
   return true;
 }
+
+void rehash()
+{
+  vector<list<HashedObj>> oldLists = theLists;
+  
+  // Create new double-sized, empty table
+  theLists.resize(nextPrime(2 * theLists.size()));
+  for(auto & thisList: theLists)
+    thisList.clear();
+    
+  // Copy table over
+  currentSize = 0;
+  for(auto & thisList: oldLists)
+    for(auto & x: thisList)
+      insert(std::move(x));
+}
