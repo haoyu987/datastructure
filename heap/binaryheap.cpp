@@ -35,3 +35,40 @@ void insert(const Comparable & x)
     array[hole] = std::move(array[hole/2]);
   array[hole] = std::move(array[0]);
 }
+
+void deleteMin()
+{
+  if(isEmpty())
+    return UnderflowException();
+  
+  array[1] = std::move(array[currentSize--]);
+  percolateDown(1);
+}
+
+void deleteMin(Comparable & minItem)
+{
+  if(isEmpty())
+    return UnderflowException();
+    
+  minItem = array[1];
+  array[1] = std::move(array[currentSize--]);
+  percolateDown(1);
+}
+
+void percolateDown(int hole)
+{
+  int child;
+  Comparable tmp = std::move(array[hole]);
+  
+  for(;hole*2 <= currentSize;hole=child)
+  {
+    child = hole*2;
+    if(child != currentSize && array[child+1]<array[child])
+      child++;
+    if(array[child] < tmp)
+      array[hole] = std::move(array[child]);
+    else
+      break;
+  }
+  array[hole] = std::move(tmp);
+}
