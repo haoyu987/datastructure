@@ -72,3 +72,17 @@ void percolateDown(int hole)
   }
   array[hole] = std::move(tmp);
 }
+
+explicit BinaryHeap(const vector<Comparable> & items)
+  : array(items.size() + 10), currentSize(items.size())
+{
+  for(int i=0;i<items.size();i++)
+    array[i+1] = items[i];
+  buildHeap();
+}
+
+void buildHeap()
+{
+  for(int i=currentSize/2;i>0;i--)
+    percolateDown(i);
+}
