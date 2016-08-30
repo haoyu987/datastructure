@@ -19,6 +19,10 @@
  Solution: 1. Iterative way (stack).   Time: O(n), Space: O(n).
            2. Recursive solution.      Time: O(n), Space: O(n).
            3. Threaded tree (Morris).  Time: O(n), Space: O(1).
+           
+Morris Traversal
+inorder preorder postorder
+http://www.cnblogs.com/AnnieKim/archive/2013/06/15/morristraversal.html
  */
 /**
  * Definition for binary tree
