@@ -1,0 +1,2 @@
+1. check if the node is NULL before get the val.
+    while(cur->next && cur->next->val==val)
