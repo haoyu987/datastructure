@@ -15,54 +15,70 @@ void topsort()
   }
 }
 
-bool canFinish(int numCourses, vector<vector<int>>& prerequisites)
-{
-vector<unordered_set<int>> matrix(numCourses); // save this directed graph
-for(int i = 0; i < prerequisites.size(); ++ i)
-matrix[prerequisites[i][1]].insert(prerequisites[i][0]);
-
- vector<int> d(numCourses, 0); // in-degree
- for(int i = 0; i < numCourses; ++ i)
-     for(auto it = matrix[i].begin(); it != matrix[i].end(); ++ it)
-         ++ d[*it];
- 
- for(int j = 0, i; j < numCourses; ++ j)
- {
-     for(i = 0; i < numCourses && d[i] != 0; ++ i); // find a node whose in-degree is 0
-     
-     if(i == numCourses) // if not find
-         return false;
-     
-     d[i] = -1;
-     for(auto it = matrix[i].begin(); it != matrix[i].end(); ++ it)
-         -- d[*it];
- }
- 
- return true;
-}
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<unordered_set<int>> graph = make_graph(numCourses, prerequisites);
+        vector<int> degrees = compute_indegree(graph);
+        queue<int> zeros;
+        for (int i = 0; i < numCourses; i++)
+            if (!degrees[i]) zeros.push(i);
+        vector<int> toposort;
+        for (int i = 0; i < numCourses; i++) {
+            if (zeros.empty()) return {};
+            int zero = zeros.front();
+            zeros.pop();
+            toposort.push_back(zero);
+            for (int neigh : graph[zero]) {
+                if (!--degrees[neigh])
+                    zeros.push(neigh);
+            }
+        }
+        return toposort;
+    }
+private:
+    vector<unordered_set<int>> make_graph(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<unordered_set<int>> graph(numCourses);
+        for (auto pre : prerequisites)
+            graph[pre.second].insert(pre.first);
+        return graph; 
+    }
+    vector<int> compute_indegree(vector<unordered_set<int>>& graph) {
+        vector<int> degrees(graph.size(), 0);
+        for (auto neighbors : graph)
+            for (int neigh : neighbors)
+                degrees[neigh]++;
+        return degrees;
+    }
+};
 
 // DFS
-bool canFinish(int numCourses, vector<vector<int>>& prerequisites)
-{
-  vector<unordered_set<int>> matrix(numCourses); // save this directed graph
-  for(int i = 0; i < prerequisites.size(); ++ i)
-    matrix[prerequisites[i][1]].insert(prerequisites[i][0]);
-
-  unordered_set<int> visited;
-  vector<bool> flag(numCourses, false);
-  for(int i = 0; i < numCourses; ++ i)
-     if(!flag[i])
-         if(DFS(matrix, visited, i, flag))
-             return false;
-  return true;
-}
-bool DFS(vector<unordered_set<int>> &matrix, unordered_set<int> &visited, int b, vector<bool> &flag)
-{
-  flag[b] = true;
-  visited.insert(b);
-  for(auto it = matrix[b].begin(); it != matrix[b].end(); ++ it)
-    if(visited.find(*it) != visited.end() || DFS(matrix, visited, *it, flag))
-      return true;
-  visited.erase(b);
-  return false;
-}
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<unordered_set<int>> graph = make_graph(numCourses, prerequisites);
+        vector<int> toposort;
+        vector<bool> onpath(numCourses, false), visited(numCourses, false);
+        for (int i = 0; i < numCourses; i++)
+            if (!visited[i] && dfs(graph, i, onpath, visited, toposort))
+                return {};
+        reverse(toposort.begin(), toposort.end());
+        return toposort;
+    }
+private:
+    vector<unordered_set<int>> make_graph(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<unordered_set<int>> graph(numCourses);
+        for (auto pre : prerequisites)
+            graph[pre.second].insert(pre.first);
+        return graph;
+    }
+    bool dfs(vector<unordered_set<int>>& graph, int node, vector<bool>& onpath, vector<bool>& visited, vector<int>& toposort) { 
+        if (visited[node]) return false;
+        onpath[node] = visited[node] = true; 
+        for (int neigh : graph[node])
+            if (onpath[neigh] || dfs(graph, neigh, onpath, visited, toposort))
+                return true;
+        toposort.push_back(node);
+        return onpath[node] = false;
+    }
+};
